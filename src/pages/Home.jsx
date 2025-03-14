@@ -2,6 +2,7 @@
 import Navbar from '../components/Navbar';
 import { FiMail, FiCpu, FiShield, FiZap, FiDatabase, FiCheck, FiArrowRight } from 'react-icons/fi';
 import { BsBarChart, BsCodeSlash, BsGithub, BsTwitter, BsLinkedin } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 function Home() {
   return (
@@ -26,12 +27,12 @@ function Home() {
                 >
                   Get Started Free
                 </a>
-                <a 
-                  href="#documentation" 
+                <Link 
+                  to="/documentation" 
                   className="border border-gray-300 text-gray-800 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors text-center"
                 >
                   Read Documentation
-                </a>
+                </Link>
               </div>
               <div className="mt-8 flex items-center text-sm text-gray-500">
                 <FiCheck className="text-black mr-2" />
@@ -241,13 +242,13 @@ await client.send({
                   <span className="text-gray-600">Best practices and optimization tips</span>
                 </li>
               </ul>
-              <a 
-                href="#full-docs" 
+              <Link
+                to="/documentation" 
                 className="flex items-center text-black font-medium hover:text-gray-700 transition-colors"
               >
                 Browse full documentation
                 <FiArrowRight className="ml-2" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
