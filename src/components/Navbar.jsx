@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
 import { FiMail } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,14 +39,14 @@ const Navbar = () => {
             <a href="#features" className="text-gray-800 hover:text-black font-medium">Features</a>
             <a href="#documentation" className="text-gray-800 hover:text-black font-medium">Docs</a>
             <a href="#pricing" className="text-gray-800 hover:text-black font-medium">Pricing</a>
-            <a href="#contact" className="text-gray-800 hover:text-black font-medium">Contact</a>
-            <a href="#login" className="text-gray-800 hover:text-black font-medium">Login</a>
-            <a 
-              href="#signup" 
+            <Link to="/contact" className="text-gray-800 hover:text-black font-medium">Contact</Link>
+            <Link to="/login" className="text-gray-800 hover:text-black font-medium">Login</Link>
+            <Link 
+              to="/signup" 
               className="bg-black text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors"
             >
               Sign Up Free
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

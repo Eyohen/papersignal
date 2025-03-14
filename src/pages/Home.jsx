@@ -21,7 +21,7 @@ function Home() {
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
                 <a 
-                  href="#signup" 
+                  href="/signup" 
                   className="bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors text-center"
                 >
                   Get Started Free
