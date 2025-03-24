@@ -568,20 +568,382 @@ await client.send({
                   <pre className="text-gray-100 text-sm overflow-x-auto">
                     <code>{`// Create a new template
 const template = await client.templates.create({
-  name: 'welcome-email',`}
-  </code>
-  </pre>
-  </div>
+name: 'welcome-email',
+  subject: 'Welcome to {{company_name}}',
+  html: \`
+    <div>
+      <h1>Welcome to {{company_name}}, {{user_name}}!</h1>
+      <p>{{custom_message}}</p>
+      <p>Best regards,<br>The {{team_name}} Team</p>
+    </div>
+  \`
+});`}</code>
+                  </pre>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Using a Template</h3>
+                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
+                  <pre className="text-gray-100 text-sm overflow-x-auto">
+                    <code>{`// Send an email using a template
+await client.send({
+  from: 'welcome@yourbusiness.com',
+  to: 'new.user@example.com',
+  template_id: 'tmpl_welcome_email',
+  template_data: {
+    company_name: 'Acme Inc',
+    user_name: 'John Doe',
+    custom_message: 'We\'re excited to have you join our platform!',
+    team_name: 'Customer Success'
+  }
+});`}</code>
+                  </pre>
+                </div>
+              </section>
+              
+              {/* Tracking Section */}
+              <section id="tracking" className="mb-16">
+                <h2 className="text-3xl font-bold text-black mb-6">Tracking & Analytics</h2>
+                <p className="text-gray-700 mb-4">
+                  Track email engagement with PaperSignal's comprehensive analytics.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Enabling Tracking</h3>
+                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
+                  <pre className="text-gray-100 text-sm overflow-x-auto">
+                    <code>{`await client.send({
+  from: 'marketing@yourbusiness.com',
+  to: 'customer@example.com',
+  subject: 'Special Offer Inside',
+  html: '<h1>Limited Time Offer</h1><p>Click <a href="https://yourbusiness.com/offer">here</a> to view your exclusive discount.</p>',
+  
+  // Enable tracking
+  track: {
+    opens: true,           // Track when the email is opened
+    clicks: true,          // Track link clicks
+    unsubscribe: true      // Add and track unsubscribe link
+  }
+});`}</code>
+                  </pre>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Retrieving Analytics</h3>
+                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
+                  <pre className="text-gray-100 text-sm overflow-x-auto">
+                    <code>{`// Get analytics for a specific email
+const messageAnalytics = await client.analytics.message('msg_1aBcDeFgHiJkLmNo');
 
-  </section>
-
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-);
-}
+// Get analytics for all emails in a date range
+const campaignAnalytics = await client.analytics.list({
+  start_date: '2023-04-01',
+  end_date: '2023-04-30',
+  event_types: ['open', 'click', 'bounce', 'spam_report']
+});`}</code>
+                  </pre>
+                </div>
+              </section>
+              
+              {/* Webhooks Section */}
+              <section id="webhooks" className="mb-16">
+                <h2 className="text-3xl font-bold text-black mb-6">Webhooks</h2>
+                <p className="text-gray-700 mb-4">
+                  Receive real-time notifications about email events using webhooks.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Setting Up Webhooks</h3>
+                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
+                  <pre className="text-gray-100 text-sm overflow-x-auto">
+                    <code>{`// Create a webhook endpoint
+const webhook = await client.webhooks.create({
+  url: 'https://your-app.com/papersignal/webhook',
+  description: 'Production email events',
+  events: ['delivery', 'open', 'click', 'bounce', 'spam', 'unsubscribe'],
+  active: true
+});`}</code>
+                  </pre>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Webhook Events</h3>
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-white border border-gray-100 rounded-lg p-4">
+                    <h4 className="font-semibold text-black mb-2">delivery</h4>
+                    <p className="text-gray-600 text-sm">Email was successfully delivered</p>
+                  </div>
+                  <div className="bg-white border border-gray-100 rounded-lg p-4">
+                    <h4 className="font-semibold text-black mb-2">open</h4>
+                    <p className="text-gray-600 text-sm">Recipient opened the email</p>
+                  </div>
+                  <div className="bg-white border border-gray-100 rounded-lg p-4">
+                    <h4 className="font-semibold text-black mb-2">click</h4>
+                    <p className="text-gray-600 text-sm">Recipient clicked a link in the email</p>
+                  </div>
+                  <div className="bg-white border border-gray-100 rounded-lg p-4">
+                    <h4 className="font-semibold text-black mb-2">bounce</h4>
+                    <p className="text-gray-600 text-sm">Email bounced (delivery failed)</p>
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Example Webhook Handler</h3>
+                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
+                  <pre className="text-gray-100 text-sm overflow-x-auto">
+                    <code>{`// Example Express.js webhook handler
+app.post('/webhook/papersignal', (req, res) => {
+  const event = req.body;
+  
+  switch (event.type) {
+    case 'delivery':
+      console.log(\Email delivered to \${event.data.recipient}\);
+      break;
+    case 'open':
+      console.log(\Email opened by \${event.data.recipient}\);
+      break;
+    case 'click':
+      console.log(\Link clicked by \${event.data.recipient}\);
+      break;
+    case 'bounce':
+      console.log(\Email to \${event.data.recipient} bounced\);
+      break;
+  }
+  
+  res.status(200).send('Event received');
+});`}</code>
+                  </pre>
+                </div>
+              </section>
+              
+              {/* API Reference Section */}
+              <section id="endpoints" className="mb-16">
+                <h2 className="text-3xl font-bold text-black mb-6">API Endpoints</h2>
+                <p className="text-gray-700 mb-4">
+                  PaperSignal's RESTful API provides the following endpoints for managing your email communications.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Base URL</h3>
+                <div className="bg-gray-100 p-3 rounded-md mb-6">
+                  <code className="text-gray-800">https://api.papersignal.com/v1</code>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Available Endpoints</h3>
+                <div className="overflow-x-auto mb-6">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">POST</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/send</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Send an email</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">POST</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/templates</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Create a new template</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">GET</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/templates</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">List all templates</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">GET</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/templates/:id</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Get a specific template</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">GET</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/analytics</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Get email analytics</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+              
+              {/* Error Handling Section */}
+              <section id="errors" className="mb-16">
+                <h2 className="text-3xl font-bold text-black mb-6">Error Handling</h2>
+                <p className="text-gray-700 mb-4">
+                  PaperSignal uses conventional HTTP response codes to indicate success or failure of API requests.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">HTTP Status Codes</h3>
+                <div className="overflow-x-auto mb-6">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Code</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">200 - OK</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">The request was successful</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">400 - Bad Request</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">The request was invalid</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">401 - Unauthorized</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Authentication failed</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">429 - Too Many Requests</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Rate limit exceeded</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Error Response Format</h3>
+                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
+                  <pre className="text-gray-100 text-sm overflow-x-auto">
+                    <code>{`{
+  "error": {
+    "type": "invalid_request_error",
+    "message": "The 'from' field is required",
+    "param": "from",
+    "code": "missing_required_param"
+  }
+}`}</code>
+                  </pre>
+                </div>
+              </section>
+              
+              {/* Rate Limits Section */}
+              <section id="rate-limits" className="mb-16">
+                <h2 className="text-3xl font-bold text-black mb-6">Rate Limits</h2>
+                <p className="text-gray-700 mb-4">
+                  PaperSignal implements rate limiting to ensure fair usage and service stability.
+                </p>
+                
+                <h3 className="text-xl font-semibold text-black mb-4">Default Limits</h3>
+                <div className="overflow-x-auto mb-6">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">API Requests</th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email Sending</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">Free</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">100 requests/minute</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">500 emails/day</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">Growth</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">500 requests/minute</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">50,000 emails/month</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">Enterprise</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Custom</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Custom</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-md">
+                  <h4 className="font-semibold text-yellow-800 mb-1">Rate Limit Handling</h4>
+                  <p className="text-yellow-700 text-sm">
+                    When you exceed rate limits, the API will return a 429 status code with a Retry-After header indicating how many seconds to wait before retrying.
+                  </p>
+                </div>
+              </section>
+              
+              {/* Get Started Section */}
+              <section className="bg-black text-white rounded-xl p-10 mb-16">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to get started?</h2>
+                  <p className="text-gray-300 max-w-2xl mx-auto">
+                    Join thousands of developers using PaperSignal's powerful email API.
+                  </p>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Link 
+                    to="/signup" 
+                    className="bg-white text-black px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors"
+                  >
+                    Sign up for free
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    className="border border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:text-black transition-colors"
+                  >
+                    Contact sales
+                  </Link>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Footer */}
+      <footer className="py-12 bg-white border-t border-gray-100">
+        <div className="container mx-auto max-w-6xl px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <div className="flex items-center mb-6">
+                <FiMail className="text-black text-2xl mr-2" />
+                <span className="font-bold text-xl text-black">PaperSignal</span>
+              </div>
+              <p className="text-gray-600 mb-6">
+                The email API for modern developers
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-500 hover:text-black transition-colors">
+                  <BsGithub className="text-xl" />
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-black mb-4">Product</h4>
+              <ul className="space-y-3">
+                <li><a href="/#features" className="text-gray-600 hover:text-black transition-colors">Features</a></li>
+                <li><a href="/#pricing" className="text-gray-600 hover:text-black transition-colors">Pricing</a></li>
+                <li><Link to="/docs" className="text-gray-600 hover:text-black transition-colors">Documentation</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-black mb-4">Company</h4>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors">About</a></li>
+                <li><Link to="/contact" className="text-gray-600 hover:text-black transition-colors">Contact</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-black mb-4">Legal</h4>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-100 pt-8">
+            <p className="text-gray-500 text-center">
+              &copy; {new Date().getFullYear()} PaperSignal. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
 
 
 export default Documentation;
