@@ -15,6 +15,9 @@ import {
   X
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { URL } from '../../url';
+import { useAuth } from '../../context/AuthContext';
 
 // MenuItem Component
 const MenuItem = ({ icon, title, path, collapsed, active }) => {
@@ -34,9 +37,13 @@ const MenuItem = ({ icon, title, path, collapsed, active }) => {
 };
 
 const DashboardLayout = ({ children }) => {
+  const { user, logout } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+
+
+  console.log("layout user", user)
 
   // Menu items configuration
   const menuItems = [
@@ -99,7 +106,7 @@ const DashboardLayout = ({ children }) => {
               <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
                 <User size={16} />
               </div>
-              <span className="text-sm font-medium">John Doe</span>
+              <span className="text-sm font-medium">{user?.fname} {user?.lname}</span>
             </div>
           </div>
         </header>

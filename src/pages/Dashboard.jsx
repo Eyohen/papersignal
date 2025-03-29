@@ -227,10 +227,18 @@
 
 
 // src/pages/Dashboard.jsx
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { URL } from '../url';
+import { useAuth } from '../context/AuthContext';
+
+
 
 const Dashboard = () => {
+    const { user, logout } = useAuth();
+
+    console.log("layout user", user)
   // Mock data for the dashboard
   const stats = [
     { title: "Total Emails Sent", value: "125,492", change: "+12.3%" },
