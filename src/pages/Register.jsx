@@ -502,8 +502,8 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    businessName: 'Default Business', // Default value
-    country: 'Default Country' // Default value
+    businessName: '', // Default value
+    country: '' // Default value
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -599,7 +599,7 @@ const Register = () => {
         // Use the step system if you want to show verification screen
         // otherwise, directly navigate to dashboard
         // setStep(2);
-        navigate('/dashboard');
+        navigate('/login');
       }
     } catch (err) {
       console.log(err);

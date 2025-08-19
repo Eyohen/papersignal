@@ -17,6 +17,7 @@ import Analytics from './pages/Analytics';
 import Subscribers from './pages/Subscribers';
 import Templates from './pages/Templates';
 import Billing from './pages/Billing';
+import VerifyEmail from './pages/VerifyEmail';
 // import Settings from './pages/Settings';
 // import Help from './pages/Help';
 // import NotFound from './pages/NotFound';
@@ -32,6 +33,7 @@ return (
   <Route path="/contact" element={<Contact />} />
   <Route path="/login" element={<Login />} />
   <Route path="/signup" element={<Register />} />
+  <Route path="/verify-email" element={<VerifyEmail />} />
   <Route path="/documentation" element={<Documentation />} />
  
 
