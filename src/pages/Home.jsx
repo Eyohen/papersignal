@@ -386,9 +386,12 @@ import {
   CogIcon,
   DocumentTextIcon
 } from '@heroicons/react/24/solid';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navigate = useNavigate()
 
   const features = [
     {
@@ -539,12 +542,12 @@ const Home = () => {
               <a href="#pricing" className="text-gray-600 hover:text-[#27214e] transition-colors font-medium">Pricing</a>
               <a href="#docs" className="text-gray-600 hover:text-[#27214e] transition-colors font-medium">Documentation</a>
               <a href="#support" className="text-gray-600 hover:text-[#27214e] transition-colors font-medium">Support</a>
-              <button className="text-[#27214e] hover:text-[#1a1735] font-medium">
+              <Link to={'/login'} className="text-[#27214e] hover:text-[#1a1735] font-medium">
                 Sign In
-              </button>
-              <button className="bg-[#27214e] text-white px-6 py-2.5 rounded-lg hover:bg-[#1a1735] transition-all duration-200 font-medium">
+              </Link>
+              <Link to={'/signup'} className="bg-[#27214e] text-white px-6 py-2.5 rounded-lg hover:bg-[#1a1735] transition-all duration-200 font-medium">
                 Get Started
-              </button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
