@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Route, Routes, Navigate } from 'react-router-dom'
 import Home from './pages/Home';
-import Contact from './pages/Contact';
+// import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Documentation from './pages/Documentation';
+// import Documentation from './pages/Documentation';
 
 // Layout
 // import DashboardLayout from './components/dashboardLayout';
