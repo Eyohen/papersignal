@@ -1,6 +1,6 @@
 //pages/dashboard/Overview
 import React, { useState } from 'react';
-import DashboardLayout from '../../components/dashboardLayout';
+import DashboardLayout from '../../components/DashboardLayout';
 import {
   ChatBubbleLeftRightIcon,
   EnvelopeIcon,
