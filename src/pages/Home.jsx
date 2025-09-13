@@ -387,6 +387,7 @@ import {
   DocumentTextIcon
 } from '@heroicons/react/24/solid';
 import { Link, useNavigate } from 'react-router-dom';
+import logo1 from '../assets/logo3.png'
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -530,8 +531,8 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-[#27214e] rounded-lg flex items-center justify-center">
-                <SparklesIcon className="w-6 h-6 text-white" />
+              <div className="rounded-lg flex items-center justify-center">
+                <img src={logo1} className="w-16" />
               </div>
               <span className="text-2xl font-bold text-[#27214e]">Papersignal</span>
             </div>
