@@ -33,7 +33,7 @@ const DashboardLayout = ({ children, currentPage = 'overview' }) => {
     { name: 'Email API', href: '/dashboard/email', icon: EnvelopeIcon, id: 'email' },
     { name: 'Analytics', href: '/dashboard/analytics', icon: ChartBarIcon, id: 'analytics' },
     { name: 'Team', href: '/dashboard/team', icon: UserGroupIcon, id: 'team' },
-    { name: 'API Keys', href: '/dashboard/api-keys', icon: KeyIcon, id: 'api-keys' },
+    // { name: 'API Keys', href: '/dashboard/api-keys', icon: KeyIcon, id: 'api-keys' },
     { name: 'Documentation', href: '/dashboard/docs', icon: DocumentTextIcon, id: 'docs' },
   ];
 
