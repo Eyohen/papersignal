@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
+import { URL } from '../../url';
+import axios from 'axios';
+import io from 'socket.io-client';
 import {
   ChatBubbleLeftRightIcon,
   UserGroupIcon,
@@ -17,96 +20,168 @@ const DashboardChat = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [conversations, setConversations] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    activeChats: 0,
+    avgResponseTime: '0m',
+    satisfaction: '0%',
+    pending: 0
+  });
+  const socketRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
-  const conversations = [
-    {
-      id: 1,
-      customer: {
-        name: 'John Smith',
-        email: 'john@example.com',
-        avatar: 'JS',
-        status: 'online'
-      },
-      lastMessage: "Hi, I'm having trouble with my account setup",
-      timestamp: '2 min ago',
-      status: 'unread',
-      priority: 'high',
-      tags: ['account', 'setup']
-    },
-    {
-      id: 2,
-      customer: {
-        name: 'Sarah Wilson',
-        email: 'sarah@company.com',
-        avatar: 'SW',
-        status: 'away'
-      },
-      lastMessage: "Thank you for the quick response!",
-      timestamp: '15 min ago',
-      status: 'read',
-      priority: 'normal',
-      tags: ['billing']
-    },
-    {
-      id: 3,
-      customer: {
-        name: 'Mike Johnson',
-        email: 'mike@startup.io',
-        avatar: 'MJ',
-        status: 'offline'
-      },
-      lastMessage: "Can you help me integrate the API?",
-      timestamp: '1 hour ago',
-      status: 'pending',
-      priority: 'high',
-      tags: ['api', 'integration']
-    },
-    {
-      id: 4,
-      customer: {
-        name: 'Emma Davis',
-        email: 'emma@tech.com',
-        avatar: 'ED',
-        status: 'online'
-      },
-      lastMessage: "The new features look great!",
-      timestamp: '2 hours ago',
-      status: 'read',
-      priority: 'low',
-      tags: ['feedback']
-    }
-  ];
+  // Fetch chats from API
+  useEffect(() => {
+    fetchChats();
+    connectSocket();
 
-  const messages = [
-    {
-      id: 1,
-      sender: 'customer',
-      message: "Hi, I'm having trouble with my account setup",
-      timestamp: '2:30 PM',
-      status: 'delivered'
-    },
-    {
-      id: 2,
-      sender: 'agent',
-      message: "Hi John! I'd be happy to help you with your account setup. What specific issue are you experiencing?",
-      timestamp: '2:32 PM',
-      status: 'read'
-    },
-    {
-      id: 3,
-      sender: 'customer',
-      message: "I can't seem to connect my email integration. It keeps giving me an authentication error.",
-      timestamp: '2:35 PM',
-      status: 'delivered'
-    },
-    {
-      id: 4,
-      sender: 'agent',
-      message: "I see the issue. Let me walk you through the correct authentication process. First, make sure you're using the correct API key from your dashboard.",
-      timestamp: '2:37 PM',
-      status: 'read'
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, []);
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Connect to Socket.IO
+  const connectSocket = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    socketRef.current = io(URL, {
+      transports: ['websocket', 'polling']
+    });
+
+    socketRef.current.on('connect', () => {
+      console.log('Connected to Socket.IO');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      socketRef.current.emit('authenticate', {
+        merchantId: user.id,
+        userType: 'merchant'
+      });
+    });
+
+    socketRef.current.on('receive-chat-message', (data) => {
+      console.log('Received message:', data);
+      // Add message to current chat if it matches
+      if (data.chatId === selectedConversation?.id) {
+        setMessages(prev => [...prev, {
+          id: data.message.id,
+          sender: data.message.senderType,
+          senderName: data.message.senderName,
+          message: data.message.content,
+          timestamp: new Date(data.message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          status: 'delivered'
+        }]);
+      }
+      // Refresh chat list
+      fetchChats();
+    });
+
+    socketRef.current.on('disconnect', () => {
+      console.log('Disconnected from Socket.IO');
+    });
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const fetchChats = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${URL}/api/chats`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.success) {
+        const formattedChats = response.data.chats.map(chat => ({
+          id: chat.id,
+          customer: {
+            name: chat.customerName,
+            email: chat.customerEmail,
+            avatar: getInitials(chat.customerName),
+            status: 'online'
+          },
+          lastMessage: chat.messages?.[0]?.content || 'No messages yet',
+          timestamp: formatTimestamp(chat.lastMessageAt || chat.createdAt),
+          status: chat.status,
+          priority: chat.priority,
+          tags: chat.tags || [],
+          subject: chat.subject
+        }));
+        setConversations(formattedChats);
+
+        // Update stats
+        const activeChats = formattedChats.filter(c => c.status === 'open').length;
+        const pendingChats = formattedChats.filter(c => c.status === 'in-progress').length;
+        setStats({
+          activeChats: activeChats,
+          avgResponseTime: '2.3m',
+          satisfaction: '98%',
+          pending: pendingChats
+        });
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching chats:', error);
+      setLoading(false);
     }
-  ];
+  };
+
+  const fetchMessages = async (chatId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${URL}/api/chats/${chatId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.success) {
+        const formattedMessages = response.data.chat.messages.map(msg => ({
+          id: msg.id,
+          sender: msg.senderType,
+          senderName: msg.senderName,
+          message: msg.content,
+          timestamp: new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          status: msg.isRead ? 'read' : 'delivered'
+        }));
+        setMessages(formattedMessages);
+
+        // Join chat room for real-time updates
+        if (socketRef.current) {
+          socketRef.current.emit('join-chat', chatId);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffInMinutes = Math.floor((now - date) / 60000);
+
+    if (diffInMinutes < 1) return 'Just now';
+    if (diffInMinutes < 60) return `${diffInMinutes} min ago`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} hour${Math.floor(diffInMinutes / 60) > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
+  };
 
   const quickReplies = [
     "Thanks for contacting us! How can I help you today?",
@@ -115,31 +190,31 @@ const DashboardChat = () => {
     "Is there anything else I can help you with?"
   ];
 
-  const stats = [
+  const statsData = [
     {
       name: 'Active Chats',
-      value: '24',
+      value: stats.activeChats.toString(),
       change: '+12%',
       icon: ChatBubbleLeftRightIcon,
       color: 'text-blue-600'
     },
     {
       name: 'Avg Response Time',
-      value: '2.3m',
+      value: stats.avgResponseTime,
       change: '-15%',
       icon: ClockIcon,
       color: 'text-green-600'
     },
     {
       name: 'Customer Satisfaction',
-      value: '98%',
+      value: stats.satisfaction,
       change: '+3%',
       icon: CheckCircleIcon,
       color: 'text-purple-600'
     },
     {
       name: 'Pending Requests',
-      value: '8',
+      value: stats.pending.toString(),
       change: '+2',
       icon: ExclamationTriangleIcon,
       color: 'text-orange-600'
@@ -173,12 +248,56 @@ const DashboardChat = () => {
     }
   };
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      // Handle send message logic
-      console.log('Sending:', newMessage);
-      setNewMessage('');
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || !selectedConversation) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+      const response = await axios.post(
+        `${URL}/api/chats/${selectedConversation.id}/messages`,
+        {
+          content: newMessage,
+          messageType: 'text'
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (response.data.success) {
+        const newMsg = {
+          id: response.data.message.id,
+          sender: 'agent',
+          senderName: `${user.fname} ${user.lname}`,
+          message: newMessage,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          status: 'sent'
+        };
+        setMessages(prev => [...prev, newMsg]);
+        setNewMessage('');
+
+        // Emit socket event for real-time update
+        if (socketRef.current) {
+          socketRef.current.emit('send-chat-message', {
+            chatId: selectedConversation.id,
+            message: response.data.message
+          });
+        }
+
+        // Refresh chat list
+        fetchChats();
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message');
     }
+  };
+
+  const handleConversationSelect = (conversation) => {
+    setSelectedConversation(conversation);
+    fetchMessages(conversation.id);
   };
 
   return (
@@ -204,7 +323,7 @@ const DashboardChat = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat) => (
+          {statsData.map((stat) => (
             <div key={stat.name} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -249,14 +368,19 @@ const DashboardChat = () => {
             </div>
 
             <div className="flex-1 overflow-y-auto">
-              {conversations.map((conversation) => (
-                <div
-                  key={conversation.id}
-                  onClick={() => setSelectedConversation(conversation)}
-                  className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-                    selectedConversation?.id === conversation.id ? 'bg-[#c4e6ff]/20' : ''
-                  } ${getConversationStatusColor(conversation.status)}`}
-                >
+              {loading ? (
+                <div className="p-4 text-center text-gray-500">Loading chats...</div>
+              ) : conversations.length === 0 ? (
+                <div className="p-4 text-center text-gray-500">No chats yet</div>
+              ) : (
+                conversations.map((conversation) => (
+                  <div
+                    key={conversation.id}
+                    onClick={() => handleConversationSelect(conversation)}
+                    className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
+                      selectedConversation?.id === conversation.id ? 'bg-[#c4e6ff]/20' : ''
+                    } ${getConversationStatusColor(conversation.status)}`}
+                  >
                   <div className="flex items-start space-x-3">
                     <div className="relative">
                       <div className="w-10 h-10 bg-[#27214e] rounded-full flex items-center justify-center text-white text-sm font-medium">
@@ -287,7 +411,8 @@ const DashboardChat = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
 
@@ -324,29 +449,37 @@ const DashboardChat = () => {
 
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${message.sender === 'agent' ? 'justify-end' : 'justify-start'}`}
-                    >
+                  {messages.length === 0 ? (
+                    <div className="text-center text-gray-500 mt-8">No messages yet</div>
+                  ) : (
+                    messages.map((message) => (
                       <div
-                        className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                          message.sender === 'agent'
-                            ? 'bg-[#27214e] text-white'
-                            : 'bg-gray-100 text-gray-900'
-                        }`}
+                        key={message.id}
+                        className={`flex ${message.sender === 'agent' ? 'justify-end' : 'justify-start'}`}
                       >
-                        <p className="text-sm">{message.message}</p>
-                        <p
-                          className={`text-xs mt-1 ${
-                            message.sender === 'agent' ? 'text-[#c4e6ff]' : 'text-gray-500'
+                        <div
+                          className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                            message.sender === 'agent'
+                              ? 'bg-[#27214e] text-white'
+                              : 'bg-gray-100 text-gray-900'
                           }`}
                         >
-                          {message.timestamp}
-                        </p>
+                          {message.sender === 'customer' && message.senderName && (
+                            <p className="text-xs font-semibold mb-1 text-gray-600">{message.senderName}</p>
+                          )}
+                          <p className="text-sm">{message.message}</p>
+                          <p
+                            className={`text-xs mt-1 ${
+                              message.sender === 'agent' ? 'text-[#c4e6ff]' : 'text-gray-500'
+                            }`}
+                          >
+                            {message.timestamp}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
+                  <div ref={messagesEndRef} />
                 </div>
 
                 {/* Quick Replies */}
@@ -370,13 +503,20 @@ const DashboardChat = () => {
                     <textarea
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendMessage();
+                        }
+                      }}
                       placeholder="Type your message..."
                       rows="2"
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#27214e] focus:border-[#27214e] resize-none"
                     />
                     <button
                       onClick={handleSendMessage}
-                      className="bg-[#27214e] text-white px-4 py-2 rounded-lg hover:bg-[#1a1735] transition-colors flex items-center"
+                      disabled={!newMessage.trim()}
+                      className="bg-[#27214e] text-white px-4 py-2 rounded-lg hover:bg-[#1a1735] transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <PaperAirplaneIcon className="h-5 w-5" />
                     </button>

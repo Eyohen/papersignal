@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Route, Routes, Navigate } from 'react-router-dom'
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-// import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 import DashboardOverview from './pages/dashboard/Overview';
 import DashboardAnalytics from './pages/dashboard/Analytics';
@@ -15,33 +13,24 @@ import DashboardEmail from './pages/dashboard/Email';
 import DashboardBilling from './pages/dashboard/Billing';
 import DashboardTeam from './pages/dashboard/Team';
 
-
 const App = () => {
-
-  const isAuthenticated = true;
-
   return (
     <Routes>
+      {/* Public Routes */}
       <Route exact path="/" element={<Home />} />
-      {/* <Route path="/contact" element={<Contact />} /> */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Register />} />
-      {/* <Route path="/verify-email" element={<VerifyEmail />} />
-  <Route path="/documentation" element={<Documentation />} /> */}
 
-      {/* Dashboard Routes */}
-      <Route path="/dashboard" element={<DashboardOverview />} />
-      <Route path="/dashboard/analytics" element={<DashboardAnalytics />} />
-      <Route path="/dashboard/settings" element={<DashboardSettings />} />
-      <Route path="/dashboard/chat" element={<DashboardChat />} />
-      <Route path="/dashboard/email" element={<DashboardEmail/>} />
-      <Route path="/dashboard/billing" element={<DashboardBilling />} />
-      <Route path="/dashboard/team" element={<DashboardTeam />} />
-
-      {/* 404 Page */}
-      {/* <Route path="*" element={<NotFound />} /> */}
+      {/* Protected Dashboard Routes */}
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />
+      <Route path="/dashboard/analytics" element={<ProtectedRoute><DashboardAnalytics /></ProtectedRoute>} />
+      <Route path="/dashboard/settings" element={<ProtectedRoute><DashboardSettings /></ProtectedRoute>} />
+      <Route path="/dashboard/chat" element={<ProtectedRoute><DashboardChat /></ProtectedRoute>} />
+      <Route path="/dashboard/email" element={<ProtectedRoute><DashboardEmail /></ProtectedRoute>} />
+      <Route path="/dashboard/billing" element={<ProtectedRoute><DashboardBilling /></ProtectedRoute>} />
+      <Route path="/dashboard/team" element={<ProtectedRoute><DashboardTeam /></ProtectedRoute>} />
     </Routes>
-  )
-}
+  );
+};
 
-export default App
+export default App;

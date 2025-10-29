@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { 
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import {
   SparklesIcon,
   Bars3Icon,
   XMarkIcon,
@@ -24,6 +26,8 @@ import {
 } from '@heroicons/react/24/solid';
 
 const DashboardLayout = ({ children, currentPage = 'overview' }) => {
+  const navigate = useNavigate();
+  const { user: authUser, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
@@ -50,10 +54,26 @@ const DashboardLayout = ({ children, currentPage = 'overview' }) => {
   ];
 
   const user = {
-    name: 'John Doe',
-    email: 'john@company.com',
+    name: authUser ? `${authUser.fname} ${authUser.lname}` : 'User',
+    email: authUser?.email || '',
     avatar: null,
-    company: 'Acme Inc'
+    company: authUser?.bName || 'Your Company'
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const handleMenuItemClick = (itemName) => {
+    if (itemName === 'Sign out') {
+      handleLogout();
+    } else if (itemName === 'Settings') {
+      navigate('/dashboard/settings');
+    } else if (itemName === 'Your Profile') {
+      navigate('/dashboard/settings');
+    }
+    setProfileDropdownOpen(false);
   };
 
   return (
@@ -243,15 +263,14 @@ const DashboardLayout = ({ children, currentPage = 'overview' }) => {
                       <p className="text-sm text-gray-500">{user.email}</p>
                     </div>
                     {profileMenuItems.map((item) => (
-                      <a
+                      <button
                         key={item.name}
-                        href="#"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setProfileDropdownOpen(false)}
+                        className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => handleMenuItemClick(item.name)}
                       >
                         <item.icon className="mr-3 h-4 w-4 text-gray-400" />
                         {item.name}
-                      </a>
+                      </button>
                     ))}
                   </div>
                 )}

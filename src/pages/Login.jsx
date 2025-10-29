@@ -226,7 +226,7 @@
 
 
 import React, { useState } from 'react';
-import { 
+import {
   SparklesIcon,
   EyeIcon,
   EyeSlashIcon,
@@ -237,9 +237,11 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
 import { URL } from '../url';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -259,10 +261,7 @@ const Login = () => {
       });
 
       if (response.data.accessToken) {
-        localStorage.setItem('token', response.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        
+        login(response.data.user, response.data.accessToken, response.data.refreshToken);
         navigate('/dashboard');
       }
     } catch (err) {

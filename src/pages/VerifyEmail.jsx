@@ -26,7 +26,7 @@ const VerifyEmail = () => {
         }
 
         // Call the verification endpoint
-        const response = await axios.get(`${URL}/api/merchants/verify-email?token=${token}`);
+        const response = await axios.get(`${URL}/api/merchant/verify-email?token=${token}`);
         
         // Handle success response
         setStatus('success');
