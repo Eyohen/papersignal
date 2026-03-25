@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Documentation from './pages/Documentation';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import DashboardOverview from './pages/dashboard/Overview';
@@ -20,6 +21,7 @@ const App = () => {
       <Route exact path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Register />} />
+      <Route path="/docs" element={<Documentation />} />
 
       {/* Protected Dashboard Routes */}
       <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />

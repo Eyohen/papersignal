@@ -1,949 +1,1016 @@
 // Documentation.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import { FiMail, FiCopy, FiCheck, FiSearch, FiArrowRight } from 'react-icons/fi';
-import { BsGithub } from 'react-icons/bs';
+import { IoMailOutline } from "react-icons/io5";
 
-const Documentation = () => {
-  const [activeSection, setActiveSection] = useState('getting-started');
-  const [copied, setCopied] = useState(false);
-  
-  // Copy API key to clipboard
-  const copyApiKey = () => {
-    navigator.clipboard.writeText('pk_test_PaperSignal123456789DEMO');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      
-      {/* Documentation Header */}
-      <section className="pt-32 pb-10 px-4 md:px-0 bg-gray-50 border-b border-gray-200">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-black mb-2">Documentation</h1>
-              <p className="text-gray-600">
-                Learn how to integrate and use PaperSignal's powerful email API
-              </p>
-            </div>
-            
-            <div className="flex items-center">
-              <div className="relative">
-                <input 
-                  type="text"
-                  placeholder="Search docs..."
-                  className="w-64 py-2 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                />
-                <FiSearch className="absolute left-3 top-3 text-gray-400" />
-              </div>
-              
-              <div className="hidden md:block ml-4 pl-4 border-l border-gray-300">
-                <a href="https://github.com/papersignal" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-black">
-                  <BsGithub className="text-xl" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Documentation Content */}
-      <div className="container mx-auto max-w-6xl px-4 py-10">
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Sidebar Navigation */}
-          <div className="lg:w-1/4">
-            <div className="sticky top-24 overflow-y-auto max-h-[calc(100vh-150px)] lg:pr-6 pb-10">
-              <div className="mb-6">
-                <Link to="/signup" className="w-full bg-black text-white rounded-md py-2 px-4 flex items-center justify-center font-medium hover:bg-gray-800 transition-colors">
-                  <span>Get API Key</span>
-                  <FiArrowRight className="ml-2" />
-                </Link>
-              </div>
-              
-              <div className="mb-6">
-                <h3 className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-3">
-                  Getting Started
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <a 
-                      href="#getting-started"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'getting-started'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('getting-started')}
-                    >
-                      Overview
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#installation"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'installation'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('installation')}
-                    >
-                      Installation
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#authentication"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'authentication'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('authentication')}
-                    >
-                      Authentication
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#sending-email"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'sending-email'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('sending-email')}
-                    >
-                      Sending Email
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="mb-6">
-                <h3 className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-3">
-                  Core Features
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <a 
-                      href="#templates"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'templates'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('templates')}
-                    >
-                      Templates
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#tracking"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'tracking'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('tracking')}
-                    >
-                      Tracking & Analytics
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#webhooks"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'webhooks'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('webhooks')}
-                    >
-                      Webhooks
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="mb-6">
-                <h3 className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-3">
-                  API Reference
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <a 
-                      href="#endpoints"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'endpoints'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('endpoints')}
-                    >
-                      Endpoints
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#errors"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'errors'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('errors')}
-                    >
-                      Error Handling
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="#rate-limits"
-                      className={`block px-3 py-2 rounded-md text-sm ${
-                        activeSection === 'rate-limits'
-                          ? 'bg-gray-100 text-black font-medium'
-                          : 'text-gray-600 hover:text-black hover:bg-gray-50'
-                      }`}
-                      onClick={() => setActiveSection('rate-limits')}
-                    >
-                      Rate Limits
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="mt-10 bg-gray-50 rounded-lg p-4 border border-gray-100">
-                <h3 className="font-medium text-black mb-2">Need Help?</h3>
-                <p className="text-gray-600 text-sm mb-3">
-                  Can't find what you're looking for?
-                </p>
-                <Link to="/contact" className="text-black font-medium hover:underline text-sm flex items-center">
-                  Contact Support
-                  <FiArrowRight className="ml-2" />
-                </Link>
-              </div>
-            </div>
-          </div>
-          
-          {/* Main Documentation Content */}
-          <div className="lg:w-3/4">
-            <div className="prose prose-lg max-w-none">
-              {/* Getting Started Section */}
-              <section id="getting-started" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Getting Started with PaperSignal</h2>
-                <p className="text-gray-700 mb-4">
-                  PaperSignal is a powerful email API that makes it easy to send transactional and marketing emails with high deliverability. This guide will help you integrate our API into your application.
-                </p>
-                
-                <div className="bg-gray-50 border border-gray-100 rounded-lg p-6 mb-6">
-                  <h3 className="text-xl font-semibold text-black mb-4">Quick Start</h3>
-                  <ol className="space-y-4 text-gray-700">
-                    <li className="flex items-start">
-                      <span className="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0">1</span>
-                      <div>
-                        <strong>Sign up</strong> for a PaperSignal account and get your API key
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0">2</span>
-                      <div>
-                        <strong>Install</strong> our SDK for your preferred programming language
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0">3</span>
-                      <div>
-                        <strong>Initialize</strong> the client with your API key
-                      </div>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="bg-black text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0">4</span>
-                      <div>
-                        <strong>Send</strong> your first email using our simple API
-                      </div>
-                    </li>
-                  </ol>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Features Overview</h3>
-                <div className="grid md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-sm transition-shadow">
-                    <h4 className="font-semibold text-black mb-2">Transactional Emails</h4>
-                    <p className="text-gray-600 text-sm">Send order confirmations, welcome emails, password resets, and more.</p>
-                  </div>
-                  <div className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-sm transition-shadow">
-                    <h4 className="font-semibold text-black mb-2">Marketing Campaigns</h4>
-                    <p className="text-gray-600 text-sm">Send newsletters, announcements, and promotional emails at scale.</p>
-                  </div>
-                  <div className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-sm transition-shadow">
-                    <h4 className="font-semibold text-black mb-2">Email Templates</h4>
-                    <p className="text-gray-600 text-sm">Create reusable templates with dynamic content variables.</p>
-                  </div>
-                  <div className="bg-white border border-gray-100 rounded-lg p-4 hover:shadow-sm transition-shadow">
-                    <h4 className="font-semibold text-black mb-2">Advanced Analytics</h4>
-                    <p className="text-gray-600 text-sm">Track opens, clicks, bounces, and more with detailed reports.</p>
-                  </div>
-                </div>
-              </section>
-              
-              {/* Installation Section */}
-              <section id="installation" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Installation</h2>
-                <p className="text-gray-700 mb-4">
-                  You can integrate PaperSignal using our SDK libraries available for various programming languages. Choose your preferred language below.
-                </p>
-                
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-black mb-4">JavaScript / Node.js</h3>
-                  <div className="relative bg-gray-900 rounded-md p-4 mb-4">
-                    <pre className="text-gray-100 text-sm overflow-x-auto">
-                      <code>npm install @papersignal/sdk</code>
-                    </pre>
-                    <button 
-                      className="absolute top-2 right-2 text-gray-400 hover:text-white p-1"
-                      aria-label="Copy to clipboard"
-                    >
-                      <FiCopy className="text-sm" />
-                    </button>
-                  </div>
-                  
-                  <div className="relative bg-gray-900 rounded-md p-4">
-                    <pre className="text-gray-100 text-sm overflow-x-auto">
-                      <code>{`// Initialize the client
-import { PaperSignal } from '@papersignal/sdk';
-
-// Create a client instance with your API key
-const client = new PaperSignal('YOUR_API_KEY');`}</code>
-                    </pre>
-                    <button 
-                      className="absolute top-2 right-2 text-gray-400 hover:text-white p-1"
-                      aria-label="Copy to clipboard"
-                    >
-                      <FiCopy className="text-sm" />
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-black mb-4">Python</h3>
-                  <div className="relative bg-gray-900 rounded-md p-4 mb-4">
-                    <pre className="text-gray-100 text-sm overflow-x-auto">
-                      <code>pip install papersignal</code>
-                    </pre>
-                    <button 
-                      className="absolute top-2 right-2 text-gray-400 hover:text-white p-1"
-                      aria-label="Copy to clipboard"
-                    >
-                      <FiCopy className="text-sm" />
-                    </button>
-                  </div>
-                  
-                  <div className="relative bg-gray-900 rounded-md p-4">
-                    <pre className="text-gray-100 text-sm overflow-x-auto">
-                      <code>{`# Initialize the client
-from papersignal import PaperSignal
-
-# Create a client instance with your API key
-client = PaperSignal('YOUR_API_KEY')`}</code>
-                    </pre>
-                    <button 
-                      className="absolute top-2 right-2 text-gray-400 hover:text-white p-1"
-                      aria-label="Copy to clipboard"
-                    >
-                      <FiCopy className="text-sm" />
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-black mb-4">PHP</h3>
-                  <div className="relative bg-gray-900 rounded-md p-4 mb-4">
-                    <pre className="text-gray-100 text-sm overflow-x-auto">
-                      <code>composer require papersignal/papersignal-php</code>
-                    </pre>
-                    <button 
-                      className="absolute top-2 right-2 text-gray-400 hover:text-white p-1"
-                      aria-label="Copy to clipboard"
-                    >
-                      <FiCopy className="text-sm" />
-                    </button>
-                  </div>
-                  
-                  <div className="relative bg-gray-900 rounded-md p-4">
-                    <pre className="text-gray-100 text-sm overflow-x-auto">
-                      <code>{`<?php
-// Initialize the client
-require 'vendor/autoload.php';
-
-use PaperSignal\\PaperSignal;
-
-// Create a client instance with your API key
-$client = new PaperSignal('YOUR_API_KEY');`}</code>
-                    </pre>
-                    <button 
-                      className="absolute top-2 right-2 text-gray-400 hover:text-white p-1"
-                      aria-label="Copy to clipboard"
-                    >
-                      <FiCopy className="text-sm" />
-                    </button>
-                  </div>
-                </div>
-              </section>
-              
-              {/* Authentication Section */}
-              <section id="authentication" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Authentication</h2>
-                <p className="text-gray-700 mb-4">
-                  All requests to the PaperSignal API require authentication using your API key. You can find your API key in the dashboard.
-                </p>
-                
-                <div className="bg-gray-50 border border-gray-100 rounded-lg p-6 mb-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <div>
-                      <h4 className="font-semibold text-black">Test API Key</h4>
-                      <p className="text-sm text-gray-600">Use for development and testing</p>
-                    </div>
-                    <div className="relative">
-                      <div className="flex items-center bg-gray-100 rounded px-3 py-1">
-                        <code className="text-sm text-gray-800 mr-2">pk_test_PaperSignal123456789DEMO</code>
-                        <button 
-                          onClick={copyApiKey}
-                          className="text-gray-500 hover:text-gray-700"
-                        >
-                          {copied ? <FiCheck className="text-green-500" /> : <FiCopy />}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h4 className="font-semibold text-black">Live API Key</h4>
-                      <p className="text-sm text-gray-600">Use for production environments</p>
-                    </div>
-                    <Link 
-                      to="/signup" 
-                      className="bg-black text-white rounded-md py-1 px-3 text-sm font-medium hover:bg-gray-800 transition-colors"
-                    >
-                      Get Live API Key
-                    </Link>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Using Your API Key</h3>
-                
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// With our SDK
-const client = new PaperSignal('YOUR_API_KEY');
-
-// With HTTP requests
-// Include in the Authorization header
-Authorization: Bearer YOUR_API_KEY`}</code>
-                  </pre>
-                </div>
-                
-                <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-md">
-                  <h4 className="font-semibold text-yellow-800 mb-1">Security Note</h4>
-                  <p className="text-yellow-700 text-sm">
-                    Keep your API keys secure and never expose them in client-side code. Use environment variables or a secure backend to store your keys.
-                  </p>
-                </div>
-              </section>
-              
-              {/* Sending Email Section */}
-              <section id="sending-email" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Sending Email</h2>
-                <p className="text-gray-700 mb-4">
-                  Send your first email with PaperSignal using our simple API.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Basic Example</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// JavaScript/Node.js example
-await client.send({
-  from: 'you@yourdomain.com',
-  to: 'recipient@example.com',
-  subject: 'Hello from PaperSignal',
-  html: '<h1>Hello World</h1><p>Your first email sent through PaperSignal!</p>',
-  text: 'Hello World. Your first email sent through PaperSignal!'
-});`}</code>
-                  </pre>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Available Parameters</h3>
-                <div className="overflow-x-auto mb-6">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parameter</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Required</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">from</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Yes</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Email address of the sender</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">to</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String or Array</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Yes</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Email address(es) of the recipient(s)</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">subject</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Yes</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Subject line of the email</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">html</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">No*</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">HTML content of the email (*Either html or text is required)</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">text</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">No*</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Plain text content of the email (*Either html or text is required)</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">cc</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String or Array</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">No</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Carbon copy recipient(s)</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">bcc</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String or Array</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">No</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Blind carbon copy recipient(s)</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">reply_to</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">String</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">No</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Email address for replies</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">track</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Object</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">No</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Tracking configuration (opens, clicks, etc.)</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-md">
-                  <h4 className="font-semibold text-blue-800 mb-1">Best Practice</h4>
-                  <p className="text-blue-700 text-sm">
-                    Always include both HTML and plain text versions of your email for maximum compatibility across email clients.
-                  </p>
-                </div>
-              </section>
-              
-              {/* Templates Section */}
-              <section id="templates" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Email Templates</h2>
-                <p className="text-gray-700 mb-4">
-                  Use templates to create reusable email designs with dynamic content.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Creating a Template</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// Create a new template
-const template = await client.templates.create({
-name: 'welcome-email',
-  subject: 'Welcome to {{company_name}}',
-  html: \`
-    <div>
-      <h1>Welcome to {{company_name}}, {{user_name}}!</h1>
-      <p>{{custom_message}}</p>
-      <p>Best regards,<br>The {{team_name}} Team</p>
+const CodeBlock = ({ label, children }) => (
+  <div className="rounded-lg overflow-hidden border border-[#e5e7eb] mb-5">
+    <div className="bg-[#f3f4f6] px-3.5 py-2 text-[12px] font-medium text-[#6b7280] border-b border-[#e5e7eb]">
+      {label}
     </div>
-  \`
-});`}</code>
-                  </pre>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Using a Template</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// Send an email using a template
-await client.send({
-  from: 'welcome@yourbusiness.com',
-  to: 'new.user@example.com',
-  template_id: 'tmpl_welcome_email',
-  template_data: {
-    company_name: 'Acme Inc',
-    user_name: 'John Doe',
-    custom_message: 'We\'re excited to have you join our platform!',
-    team_name: 'Customer Success'
-  }
-});`}</code>
-                  </pre>
-                </div>
-              </section>
-              
-              {/* Tracking Section */}
-              <section id="tracking" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Tracking & Analytics</h2>
-                <p className="text-gray-700 mb-4">
-                  Track email engagement with PaperSignal's comprehensive analytics.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Enabling Tracking</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`await client.send({
-  from: 'marketing@yourbusiness.com',
-  to: 'customer@example.com',
-  subject: 'Special Offer Inside',
-  html: '<h1>Limited Time Offer</h1><p>Click <a href="https://yourbusiness.com/offer">here</a> to view your exclusive discount.</p>',
-  
-  // Enable tracking
-  track: {
-    opens: true,           // Track when the email is opened
-    clicks: true,          // Track link clicks
-    unsubscribe: true      // Add and track unsubscribe link
-  }
-});`}</code>
-                  </pre>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Retrieving Analytics</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// Get analytics for a specific email
-const messageAnalytics = await client.analytics.message('msg_1aBcDeFgHiJkLmNo');
+    <pre className="bg-[#0d1117] p-4 overflow-x-auto m-0 text-[13px] leading-[1.5]">
+      <code className="text-[#e6edf3]" style={{ fontFamily: "'JetBrains Mono', monospace", textShadow: 'none' }}>{children}</code>
+    </pre>
+  </div>
+);
 
-// Get analytics for all emails in a date range
-const campaignAnalytics = await client.analytics.list({
-  start_date: '2023-04-01',
-  end_date: '2023-04-30',
-  event_types: ['open', 'click', 'bounce', 'spam_report']
-});`}</code>
-                  </pre>
-                </div>
-              </section>
-              
-              {/* Webhooks Section */}
-              <section id="webhooks" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Webhooks</h2>
-                <p className="text-gray-700 mb-4">
-                  Receive real-time notifications about email events using webhooks.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Setting Up Webhooks</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// Create a webhook endpoint
-const webhook = await client.webhooks.create({
-  url: 'https://your-app.com/papersignal/webhook',
-  description: 'Production email events',
-  events: ['delivery', 'open', 'click', 'bounce', 'spam', 'unsubscribe'],
-  active: true
-});`}</code>
-                  </pre>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Webhook Events</h3>
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-white border border-gray-100 rounded-lg p-4">
-                    <h4 className="font-semibold text-black mb-2">delivery</h4>
-                    <p className="text-gray-600 text-sm">Email was successfully delivered</p>
-                  </div>
-                  <div className="bg-white border border-gray-100 rounded-lg p-4">
-                    <h4 className="font-semibold text-black mb-2">open</h4>
-                    <p className="text-gray-600 text-sm">Recipient opened the email</p>
-                  </div>
-                  <div className="bg-white border border-gray-100 rounded-lg p-4">
-                    <h4 className="font-semibold text-black mb-2">click</h4>
-                    <p className="text-gray-600 text-sm">Recipient clicked a link in the email</p>
-                  </div>
-                  <div className="bg-white border border-gray-100 rounded-lg p-4">
-                    <h4 className="font-semibold text-black mb-2">bounce</h4>
-                    <p className="text-gray-600 text-sm">Email bounced (delivery failed)</p>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Example Webhook Handler</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`// Example Express.js webhook handler
-app.post('/webhook/papersignal', (req, res) => {
-  const event = req.body;
-  
-  switch (event.type) {
-    case 'delivery':
-      console.log(\Email delivered to \${event.data.recipient}\);
-      break;
-    case 'open':
-      console.log(\Email opened by \${event.data.recipient}\);
-      break;
-    case 'click':
-      console.log(\Link clicked by \${event.data.recipient}\);
-      break;
-    case 'bounce':
-      console.log(\Email to \${event.data.recipient} bounced\);
-      break;
-  }
-  
-  res.status(200).send('Event received');
-});`}</code>
-                  </pre>
-                </div>
-              </section>
-              
-              {/* API Reference Section */}
-              <section id="endpoints" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">API Endpoints</h2>
-                <p className="text-gray-700 mb-4">
-                  PaperSignal's RESTful API provides the following endpoints for managing your email communications.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Base URL</h3>
-                <div className="bg-gray-100 p-3 rounded-md mb-6">
-                  <code className="text-gray-800">https://api.papersignal.com/v1</code>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Available Endpoints</h3>
-                <div className="overflow-x-auto mb-6">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">POST</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/send</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Send an email</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">POST</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/templates</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Create a new template</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">GET</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/templates</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">List all templates</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">GET</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/templates/:id</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Get a specific template</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">GET</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">/analytics</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Get email analytics</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-              
-              {/* Error Handling Section */}
-              <section id="errors" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Error Handling</h2>
-                <p className="text-gray-700 mb-4">
-                  PaperSignal uses conventional HTTP response codes to indicate success or failure of API requests.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">HTTP Status Codes</h3>
-                <div className="overflow-x-auto mb-6">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Code</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">200 - OK</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">The request was successful</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">400 - Bad Request</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">The request was invalid</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">401 - Unauthorized</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Authentication failed</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">429 - Too Many Requests</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Rate limit exceeded</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Error Response Format</h3>
-                <div className="relative bg-gray-900 rounded-md p-4 mb-6">
-                  <pre className="text-gray-100 text-sm overflow-x-auto">
-                    <code>{`{
-  "error": {
-    "type": "invalid_request_error",
-    "message": "The 'from' field is required",
-    "param": "from",
-    "code": "missing_required_param"
-  }
-}`}</code>
-                  </pre>
-                </div>
-              </section>
-              
-              {/* Rate Limits Section */}
-              <section id="rate-limits" className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-6">Rate Limits</h2>
-                <p className="text-gray-700 mb-4">
-                  PaperSignal implements rate limiting to ensure fair usage and service stability.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-black mb-4">Default Limits</h3>
-                <div className="overflow-x-auto mb-6">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">API Requests</th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email Sending</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">Free</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">100 requests/minute</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">500 emails/day</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">Growth</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">500 requests/minute</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">50,000 emails/month</td>
-                      </tr>
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-black">Enterprise</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Custom</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">Custom</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                
-                <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-md">
-                  <h4 className="font-semibold text-yellow-800 mb-1">Rate Limit Handling</h4>
-                  <p className="text-yellow-700 text-sm">
-                    When you exceed rate limits, the API will return a 429 status code with a Retry-After header indicating how many seconds to wait before retrying.
-                  </p>
-                </div>
-              </section>
-              
-              {/* Get Started Section */}
-              <section className="bg-black text-white rounded-xl p-10 mb-16">
-                <div className="text-center mb-8">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to get started?</h2>
-                  <p className="text-gray-300 max-w-2xl mx-auto">
-                    Join thousands of developers using PaperSignal's powerful email API.
-                  </p>
-                </div>
-                
-                <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <Link 
-                    to="/signup" 
-                    className="bg-white text-black px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors"
-                  >
-                    Sign up for free
-                  </Link>
-                  <Link 
-                    to="/contact" 
-                    className="border border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white hover:text-black transition-colors"
-                  >
-                    Contact sales
-                  </Link>
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Footer */}
-      <footer className="py-12 bg-white border-t border-gray-100">
-        <div className="container mx-auto max-w-6xl px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            <div>
-              <div className="flex items-center mb-6">
-                <FiMail className="text-black text-2xl mr-2" />
-                <span className="font-bold text-xl text-black">PaperSignal</span>
-              </div>
-              <p className="text-gray-600 mb-6">
-                The email API for modern developers
-              </p>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-500 hover:text-black transition-colors">
-                  <BsGithub className="text-xl" />
-                </a>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold text-black mb-4">Product</h4>
-              <ul className="space-y-3">
-                <li><a href="/#features" className="text-gray-600 hover:text-black transition-colors">Features</a></li>
-                <li><a href="/#pricing" className="text-gray-600 hover:text-black transition-colors">Pricing</a></li>
-                <li><Link to="/docs" className="text-gray-600 hover:text-black transition-colors">Documentation</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold text-black mb-4">Company</h4>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors">About</a></li>
-                <li><Link to="/contact" className="text-gray-600 hover:text-black transition-colors">Contact</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold text-black mb-4">Legal</h4>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors">Terms of Service</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-100 pt-8">
-            <p className="text-gray-500 text-center">
-              &copy; {new Date().getFullYear()} PaperSignal. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+const MethodBadge = ({ method }) => {
+  const styles = {
+    GET: 'bg-[#ecfdf5] text-[#065f46]',
+    POST: 'bg-[#eff6ff] text-[#1e40af]',
+    DELETE: 'bg-[#fef2f2] text-[#991b1b]',
+    PATCH: 'bg-[#fffbeb] text-[#92400e]',
+  };
+  return (
+    <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wide ${styles[method]}`}>
+      {method}
+    </span>
+  );
+};
+
+const UrlBlock = ({ children }) => (
+  <div className="bg-[#f9fafb] border border-[#e5e7eb] rounded-md px-3.5 py-2.5 mb-6 text-[13px] text-[#1a1a1a]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+    {children}
+  </div>
+);
+
+const ParamTable = ({ columns, rows }) => (
+  <div className="border border-[#e5e7eb] rounded-lg overflow-hidden mb-6 text-[13px]">
+    <table className="w-full" style={{ borderSpacing: 0 }}>
+      <thead className="bg-[#f9fafb]">
+        <tr>
+          {columns.map((col, i) => (
+            <th key={i} className="text-left px-4 py-2.5 text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wide border-b border-[#e5e7eb]">{col}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, i) => (
+          <tr key={i}>
+            {row.map((cell, j) => (
+              <td key={j} className={`px-4 py-2.5 text-[#4b5563] ${i < rows.length - 1 ? 'border-b border-[#f3f4f6]' : ''} ${j === 0 ? 'font-medium text-[#1a1a1a]' : ''}`}
+                style={j === 0 ? { fontFamily: "'JetBrains Mono', monospace" } : {}}>
+                {cell}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+const Callout = ({ type, title, children }) => {
+  const styles = {
+    warn: { border: '#f59e0b', bg: '#fffbeb', text: '#92400e' },
+    info: { border: '#3b82f6', bg: '#eff6ff', text: '#1e40af' },
+  };
+  const s = styles[type];
+  return (
+    <div className="rounded-r-md mb-6 px-4 py-3" style={{ borderLeft: `3px solid ${s.border}`, background: s.bg }}>
+      <div className="text-[13px] font-semibold mb-0.5" style={{ color: s.text }}>{title}</div>
+      <div className="text-[13px]" style={{ color: s.text }}>{children}</div>
     </div>
   );
 };
 
+const Divider = () => <hr className="border-[#e5e7eb] border-t mb-0 mt-0" />;
+
+const EndpointRow = ({ method, path, desc }) => (
+  <div className="flex items-center gap-3 px-3.5 py-2.5 bg-[#f9fafb] border border-[#e5e7eb] rounded-md text-[13px]">
+    <MethodBadge method={method} />
+    <code className="text-[13px] text-[#1a1a1a]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{path}</code>
+    <span className="text-[#9ca3af] text-[13px]">{desc}</span>
+  </div>
+);
+
+const Documentation = () => {
+  const [activeSection, setActiveSection] = useState('introduction');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('section[id]').forEach(section => {
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const sidebarSections = [
+    {
+      label: 'Getting Started',
+      items: [
+        { id: 'introduction', name: 'Introduction' },
+        { id: 'authentication', name: 'Authentication' },
+        { id: 'quick-start', name: 'Quick Start' },
+      ]
+    },
+    {
+      label: 'Conversations',
+      items: [
+        { id: 'create-room', name: 'Create Room' },
+        { id: 'direct-conversation', name: 'Get/Create Direct' },
+        { id: 'user-conversations', name: 'User Conversations' },
+        { id: 'get-rooms', name: 'Get Rooms' },
+        { id: 'get-room', name: 'Get Room by ID' },
+        { id: 'delete-room', name: 'Delete Room' },
+      ]
+    },
+    {
+      label: 'Messages',
+      items: [
+        { id: 'send-message', name: 'Send Message' },
+        { id: 'edit-message', name: 'Edit Message' },
+        { id: 'delete-message', name: 'Delete Message' },
+        { id: 'read-receipts', name: 'Read Receipts' },
+      ]
+    },
+    {
+      label: 'Reactions',
+      items: [
+        { id: 'add-reaction', name: 'Add Reaction' },
+        { id: 'remove-reaction', name: 'Remove Reaction' },
+        { id: 'get-reactions', name: 'Get Reactions' },
+      ]
+    },
+    {
+      label: 'Presence',
+      items: [
+        { id: 'update-presence', name: 'Update Presence' },
+        { id: 'get-presence', name: 'Get Presence' },
+        { id: 'bulk-presence', name: 'Bulk Presence' },
+      ]
+    },
+    {
+      label: 'Participants',
+      items: [
+        { id: 'add-participant', name: 'Add Participant' },
+        { id: 'remove-participant', name: 'Remove Participant' },
+      ]
+    },
+    {
+      label: 'Webhooks',
+      items: [
+        { id: 'create-webhook', name: 'Create Webhook' },
+        { id: 'list-webhooks', name: 'List Webhooks' },
+        { id: 'webhook-events', name: 'Webhook Events' },
+      ]
+    },
+    {
+      label: 'Real-Time',
+      items: [
+        { id: 'socket-io', name: 'Socket.IO Events' },
+        { id: 'real-time-example', name: 'Integration Example' },
+      ]
+    },
+  ];
+
+  const Required = () => <span className="text-[11px] font-medium text-[#dc2626]">Required</span>;
+  const Optional = () => <span className="text-[11px] text-[#9ca3af]">Optional</span>;
+
+  return (
+    <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-[#e5e7eb]">
+        <div className="max-w-[1280px] mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Link to="/" className="flex items-center gap-2 text-[15px] font-semibold text-[#1a1a1a] no-underline">
+              <IoMailOutline size={18}/>
+              Papersignal
+            </Link>
+            <span className="text-[13px] text-[#9ca3af] font-normal">Docs</span>
+          </div>
+          <div className="flex items-center gap-6">
+            <a href="#quick-start" className="text-[13px] font-medium text-[#6b7280] hover:text-[#1a1a1a] no-underline">Quick Start</a>
+            <a href="#real-time-example" className="text-[13px] font-medium text-[#6b7280] hover:text-[#1a1a1a] no-underline">Examples</a>
+            <Link to="/dashboard" className="bg-[#1a1a1a] text-white px-3.5 py-1.5 rounded-md text-[13px] font-medium hover:bg-[#333] no-underline">Dashboard</Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-[1280px] mx-auto flex">
+        {/* Sidebar */}
+        <aside className="hidden lg:block w-[240px] flex-shrink-0 border-r border-[#e5e7eb] h-[calc(100vh-56px)] sticky top-[56px] overflow-y-auto" style={{ scrollbarWidth: 'none' }}>
+          <nav className="py-6">
+            {sidebarSections.map((section, si) => (
+              <div key={si} className="mb-6">
+                <div className="text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wide px-5 mb-1">
+                  {section.label}
+                </div>
+                {section.items.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    className={`block px-5 py-[5px] text-[13px] no-underline ${
+                      activeSection === item.id
+                        ? 'text-[#1a1a1a] font-medium'
+                        : 'text-[#6b7280] hover:text-[#1a1a1a]'
+                    }`}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 min-w-0 px-12 py-10">
+          <div className="space-y-14">
+
+            {/* Introduction */}
+            <section id="introduction" className="scroll-mt-[72px]">
+              <h1 className="text-[32px] font-semibold text-[#1a1a1a] leading-[1.2] mb-3">In-App Messaging API</h1>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                Build real-time chat into your application with Papersignal's messaging API. Support for direct messages, group conversations, channels, reactions, presence, and webhooks.
+              </p>
+
+              <div className="bg-[#f9fafb] border border-[#e5e7eb] rounded-md px-4 py-3 mb-8">
+                <div className="text-[11px] font-semibold text-[#9ca3af] uppercase tracking-wide mb-1">Base URL</div>
+                <code className="text-[14px] text-[#1a1a1a]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>https://mailserver-production.up.railway.app</code>
+              </div>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Features</h3>
+              <div className="grid grid-cols-2 gap-2 mb-6">
+                {[
+                  'Direct Messages, Groups & Channels',
+                  'Read Receipts & Unread Counts',
+                  'Typing Indicators & Presence',
+                  'Message Edit & Delete',
+                  'Emoji Reactions',
+                  'Webhooks for Server Notifications',
+                ].map((f, i) => (
+                  <div key={i} className="flex items-center gap-2 text-[14px] text-[#4b5563]">
+                    <svg className="w-4 h-4 text-[#10b981] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* Authentication */}
+            <section id="authentication" className="scroll-mt-[72px]">
+              <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-3">Authentication</h2>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                All API requests require authentication using your API key. Get your key from the Papersignal dashboard.
+              </p>
+
+              <Callout type="warn" title="Keep your API key secure">
+                Never expose it in client-side code or public repositories. Use environment variables and backend proxies.
+              </Callout>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Include in Headers</h3>
+              <CodeBlock label="HTTP Headers">{`x-api-key: YOUR_API_KEY_HERE
+Content-Type: application/json`}</CodeBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Example Request</h3>
+              <CodeBlock label="JavaScript">{`fetch('https://mailserver-production.up.railway.app/api/external-chat/rooms', {
+  headers: {
+    'x-api-key': 'your-api-key-here',
+    'Content-Type': 'application/json'
+  }
+});`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Quick Start */}
+            <section id="quick-start" className="scroll-mt-[72px]">
+              <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-3">Quick Start</h2>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                Get up and running with the messaging API in four steps.
+              </p>
+
+              <div className="flex flex-col gap-8">
+                {/* Step 1 */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#f3f4f6] text-[#4b5563] text-[13px] font-semibold flex items-center justify-center">1</div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-3">Start a Direct Conversation</h3>
+                    <CodeBlock label="JavaScript">{`// Get or create a direct conversation between two users
+const response = await fetch('https://mailserver-production.up.railway.app/api/external-chat/conversations/direct', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': 'YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    user1Id: 'alice_123',
+    user1Name: 'Alice',
+    user2Id: 'bob_456',
+    user2Name: 'Bob'
+  })
+});
+
+const { room, created } = await response.json();
+console.log(created ? 'New conversation' : 'Existing conversation', room.id);`}</CodeBlock>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#f3f4f6] text-[#4b5563] text-[13px] font-semibold flex items-center justify-center">2</div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-3">Send Messages</h3>
+                    <CodeBlock label="JavaScript">{`await fetch(\`https://mailserver-production.up.railway.app/api/external-chat/rooms/\${roomId}/messages\`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': 'YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    userId: 'alice_123',
+    userName: 'Alice',
+    content: 'Hey Bob! How are you?',
+    messageType: 'text'
+  })
+});`}</CodeBlock>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#f3f4f6] text-[#4b5563] text-[13px] font-semibold flex items-center justify-center">3</div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-3">Get User's Conversations with Unread Counts</h3>
+                    <CodeBlock label="JavaScript">{`const response = await fetch('https://mailserver-production.up.railway.app/api/external-chat/users/bob_456/conversations', {
+  headers: { 'x-api-key': 'YOUR_API_KEY' }
+});
+
+const { conversations } = await response.json();
+// Each conversation includes unreadCount and lastMessage
+conversations.forEach(conv => {
+  console.log(\`\${conv.name}: \${conv.unreadCount} unread\`);
+});`}</CodeBlock>
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#f3f4f6] text-[#4b5563] text-[13px] font-semibold flex items-center justify-center">4</div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-3">Connect Socket.IO for Real-Time</h3>
+                    <CodeBlock label="JavaScript">{`import io from 'socket.io-client';
+
+const socket = io('https://mailserver-production.up.railway.app');
+
+socket.emit('join-room', {
+  roomId: 'room-id',
+  userId: 'bob_456',
+  userName: 'Bob'
+});
+
+socket.on('receive-room-message', (data) => {
+  console.log('New message:', data.message);
+});
+
+socket.on('reaction-added', (data) => {
+  console.log('Reaction added:', data.emoji);
+});`}</CodeBlock>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* Get/Create Direct Conversation */}
+            <section id="direct-conversation" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get or Create Direct Conversation</h2>
+              </div>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                Find an existing direct conversation between two users, or create one if it doesn't exist. This is the recommended way to start 1:1 chats.
+              </p>
+
+              <UrlBlock>POST /api/external-chat/conversations/direct</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <ParamTable
+                columns={['Parameter', 'Type', 'Required', 'Description']}
+                rows={[
+                  ['user1Id', 'string', <Required />, 'First user\'s ID'],
+                  ['user1Name', 'string', <Required />, 'First user\'s display name'],
+                  ['user1Avatar', 'string', <Optional />, 'First user\'s avatar URL'],
+                  ['user2Id', 'string', <Required />, 'Second user\'s ID'],
+                  ['user2Name', 'string', <Required />, 'Second user\'s display name'],
+                  ['user2Avatar', 'string', <Optional />, 'Second user\'s avatar URL'],
+                  ['metadata', 'object', <Optional />, 'Custom metadata'],
+                ]}
+              />
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Response</h3>
+              <CodeBlock label="JSON Response">{`{
+  "success": true,
+  "room": {
+    "id": "room_abc123",
+    "type": "direct",
+    "participants": [...],
+    "lastMessageAt": "2024-01-15T10:30:00Z"
+  },
+  "created": true,
+  "msg": "New conversation created"
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* User Conversations */}
+            <section id="user-conversations" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="GET" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get User's Conversations</h2>
+              </div>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                Get all conversations for a specific user, including unread counts and last message.
+              </p>
+
+              <UrlBlock>GET /api/external-chat/users/:userId/conversations</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Query Parameters</h3>
+              <ParamTable
+                columns={['Parameter', 'Type', 'Description']}
+                rows={[
+                  ['type', 'string', 'Filter by type (direct/group/channel)'],
+                  ['page', 'integer', 'Page number (default: 1)'],
+                  ['limit', 'integer', 'Results per page (default: 20)'],
+                ]}
+              />
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Response</h3>
+              <CodeBlock label="JSON Response">{`{
+  "success": true,
+  "conversations": [
+    {
+      "id": "room_abc123",
+      "name": "Project Chat",
+      "type": "group",
+      "participants": [...],
+      "unreadCount": 5,
+      "lastMessage": {
+        "id": "msg_xyz",
+        "content": "See you tomorrow!",
+        "userName": "Alice",
+        "createdAt": "2024-01-15T10:30:00Z"
+      },
+      "lastMessageAt": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 12,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 1
+  }
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Create Room */}
+            <section id="create-room" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Create Room</h2>
+              </div>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                Create a new chat room (direct, group, or channel).
+              </p>
+
+              <UrlBlock>POST /api/external-chat/rooms</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "name": "Project Discussion",
+  "type": "group",  // "direct", "group", or "channel"
+  "participants": [
+    { "userId": "user_123", "userName": "John Doe", "role": "admin" },
+    { "userId": "user_456", "userName": "Jane Smith", "role": "member" }
+  ],
+  "metadata": { "projectId": "proj_789" }
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Get Rooms */}
+            <section id="get-rooms" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="GET" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get Rooms</h2>
+              </div>
+              <UrlBlock>GET /api/external-chat/rooms?type=group&page=1&limit=20</UrlBlock>
+            </section>
+
+            <Divider />
+
+            {/* Get Room by ID */}
+            <section id="get-room" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="GET" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get Room by ID</h2>
+              </div>
+              <UrlBlock>GET /api/external-chat/rooms/:roomId?limit=50&before=timestamp</UrlBlock>
+              <p className="text-[13px] text-[#6b7280]">Returns room details with message history. Use the <code className="bg-[#f3f4f6] px-1 py-0.5 rounded text-[12px]">before</code> parameter for pagination.</p>
+            </section>
+
+            <Divider />
+
+            {/* Delete Room */}
+            <section id="delete-room" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="DELETE" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Delete Room</h2>
+              </div>
+              <UrlBlock>DELETE /api/external-chat/rooms/:roomId</UrlBlock>
+            </section>
+
+            <Divider />
+
+            {/* Send Message */}
+            <section id="send-message" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Send Message</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/rooms/:roomId/messages</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_123",
+  "userName": "John Doe",
+  "userAvatar": "https://example.com/avatar.jpg",
+  "content": "Hello everyone!",
+  "messageType": "text",  // "text", "image", "file", "system"
+  "metadata": {}
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Edit Message */}
+            <section id="edit-message" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="PATCH" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Edit Message</h2>
+              </div>
+              <UrlBlock>PATCH /api/external-chat/rooms/:roomId/messages/:messageId</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_123",  // Must be the original sender
+  "content": "Updated message content"
+}`}</CodeBlock>
+              <p className="text-[13px] text-[#6b7280]">Response includes <code className="bg-[#f3f4f6] px-1 py-0.5 rounded text-[12px]">editedAt</code> timestamp.</p>
+            </section>
+
+            <Divider />
+
+            {/* Delete Message */}
+            <section id="delete-message" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="DELETE" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Delete Message</h2>
+              </div>
+              <UrlBlock>DELETE /api/external-chat/rooms/:roomId/messages/:messageId</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_123"  // Must be the original sender
+}`}</CodeBlock>
+              <p className="text-[13px] text-[#6b7280]">Messages are soft-deleted and marked with <code className="bg-[#f3f4f6] px-1 py-0.5 rounded text-[12px]">isDeleted: true</code>.</p>
+            </section>
+
+            <Divider />
+
+            {/* Read Receipts */}
+            <section id="read-receipts" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Mark Messages as Read</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/rooms/:roomId/read</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_123",
+  "messageId": "msg_xyz"  // Optional - if omitted, marks all as read
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Add Reaction */}
+            <section id="add-reaction" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Add Reaction</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/rooms/:roomId/messages/:messageId/reactions</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_123",
+  "userName": "John Doe",
+  "emoji": "thumbsup"  // or any emoji identifier
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Remove Reaction */}
+            <section id="remove-reaction" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="DELETE" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Remove Reaction</h2>
+              </div>
+              <UrlBlock>DELETE /api/external-chat/rooms/:roomId/messages/:messageId/reactions</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_123",
+  "emoji": "thumbsup"
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Get Reactions */}
+            <section id="get-reactions" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="GET" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get Reactions</h2>
+              </div>
+              <UrlBlock>GET /api/external-chat/rooms/:roomId/messages/:messageId/reactions</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Response</h3>
+              <CodeBlock label="JSON Response">{`{
+  "success": true,
+  "reactions": {
+    "thumbsup": [
+      { "userId": "user_123", "userName": "John" },
+      { "userId": "user_456", "userName": "Jane" }
+    ],
+    "heart": [
+      { "userId": "user_789", "userName": "Bob" }
+    ]
+  },
+  "total": 3
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Update Presence */}
+            <section id="update-presence" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Update User Presence</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/users/:userId/presence</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "status": "online",  // "online", "away", or "offline"
+  "userName": "John Doe",
+  "metadata": { "device": "mobile" }
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Get Presence */}
+            <section id="get-presence" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="GET" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get User Presence</h2>
+              </div>
+              <UrlBlock>GET /api/external-chat/users/:userId/presence</UrlBlock>
+            </section>
+
+            <Divider />
+
+            {/* Bulk Presence */}
+            <section id="bulk-presence" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Get Bulk Presence</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/users/presence/bulk</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userIds": ["user_123", "user_456", "user_789"]
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Add Participant */}
+            <section id="add-participant" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Add Participant</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/rooms/:roomId/participants</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "userId": "user_789",
+  "userName": "Alice Johnson",
+  "userAvatar": "https://example.com/alice.jpg",
+  "role": "member"  // "admin" or "member"
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Remove Participant */}
+            <section id="remove-participant" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="DELETE" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Remove Participant</h2>
+              </div>
+              <UrlBlock>DELETE /api/external-chat/rooms/:roomId/participants/:userId</UrlBlock>
+            </section>
+
+            <Divider />
+
+            {/* Create Webhook */}
+            <section id="create-webhook" className="scroll-mt-[72px]">
+              <div className="flex items-center gap-3 mb-3">
+                <MethodBadge method="POST" />
+                <h2 className="text-[22px] font-semibold text-[#1a1a1a]">Create Webhook</h2>
+              </div>
+              <UrlBlock>POST /api/external-chat/webhooks</UrlBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Request Body</h3>
+              <CodeBlock label="JSON">{`{
+  "url": "https://your-server.com/webhook",
+  "events": [
+    "message.created",
+    "message.updated",
+    "message.deleted",
+    "room.created",
+    "participant.added",
+    "participant.removed",
+    "reaction.added",
+    "reaction.removed"
+  ]
+}`}</CodeBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Response</h3>
+              <Callout type="info" title="Save the webhook secret">
+                The secret is only returned once at creation time. Store it securely for signature verification.
+              </Callout>
+              <CodeBlock label="JSON Response">{`{
+  "success": true,
+  "webhook": {
+    "id": "webhook_abc123",
+    "url": "https://your-server.com/webhook",
+    "events": [...],
+    "secret": "a1b2c3d4e5f6...",
+    "isActive": true
+  }
+}`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* List Webhooks */}
+            <section id="list-webhooks" className="scroll-mt-[72px]">
+              <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-4">List & Manage Webhooks</h2>
+
+              <div className="flex flex-col gap-2 mb-6">
+                <EndpointRow method="GET" path="/api/external-chat/webhooks" desc="List all webhooks" />
+                <EndpointRow method="PATCH" path="/api/external-chat/webhooks/:webhookId" desc="Update webhook" />
+                <EndpointRow method="DELETE" path="/api/external-chat/webhooks/:webhookId" desc="Delete webhook" />
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* Webhook Events */}
+            <section id="webhook-events" className="scroll-mt-[72px]">
+              <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-3">Webhook Payload Format</h2>
+              <p className="text-[15px] text-[#4b5563] mb-6 max-w-[640px]">
+                When events occur, we send a POST request to your webhook URL with the following format.
+              </p>
+
+              <CodeBlock label="Webhook Payload">{`{
+  "event": "message.created",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "data": {
+    "roomId": "room_abc123",
+    "message": {
+      "id": "msg_xyz",
+      "userId": "user_123",
+      "userName": "John",
+      "content": "Hello!",
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  }
+}`}</CodeBlock>
+
+              <h3 className="text-[16px] font-semibold text-[#1a1a1a] mb-2">Verifying Webhook Signatures</h3>
+              <CodeBlock label="Node.js">{`const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, secret) {
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+
+  return signature === expectedSignature;
+}
+
+// In your webhook handler:
+app.post('/webhook', (req, res) => {
+  const signature = req.headers['x-webhook-signature'];
+  const event = req.headers['x-webhook-event'];
+
+  if (!verifyWebhook(req.body, signature, WEBHOOK_SECRET)) {
+    return res.status(401).json({ error: 'Invalid signature' });
+  }
+
+  // Process the event
+  console.log(\`Received \${event}:\`, req.body.data);
+  res.status(200).json({ received: true });
+});`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Socket.IO Events */}
+            <section id="socket-io" className="scroll-mt-[72px]">
+              <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-4">Socket.IO Real-Time Events</h2>
+
+              <div className="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h4 className="text-[13px] font-semibold text-[#1a1a1a] mb-2">Emit Events (Client &rarr; Server)</h4>
+                  <ul className="flex flex-col gap-1">
+                    {['join-room', 'leave-room', 'send-room-message', 'typing-in-room', 'message-updated', 'message-deleted', 'reaction-added', 'reaction-removed', 'messages-read', 'presence-update'].map(e => (
+                      <li key={e}><code className="bg-[#f3f4f6] px-1.5 py-0.5 rounded text-[12px]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{e}</code></li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-[13px] font-semibold text-[#1a1a1a] mb-2">Listen Events (Server &rarr; Client)</h4>
+                  <ul className="flex flex-col gap-1">
+                    {['receive-room-message', 'user-joined-room', 'user-left-room', 'user-typing-in-room', 'message-updated', 'message-deleted', 'reaction-added', 'reaction-removed', 'messages-read', 'presence-updated'].map(e => (
+                      <li key={e}><code className="bg-[#f3f4f6] px-1.5 py-0.5 rounded text-[12px]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{e}</code></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <CodeBlock label="Connection Example">{`import io from 'socket.io-client';
+
+const socket = io('https://mailserver-production.up.railway.app');
+
+// Join a room
+socket.emit('join-room', {
+  roomId: 'room_abc123',
+  userId: 'user_123',
+  userName: 'John Doe'
+});
+
+// Listen for messages
+socket.on('receive-room-message', (data) => {
+  console.log('New message:', data.message);
+});
+
+// Listen for reactions
+socket.on('reaction-added', (data) => {
+  console.log(\`\${data.userName} reacted with \${data.emoji}\`);
+});
+
+// Listen for presence updates
+socket.on('presence-updated', (data) => {
+  console.log(\`\${data.userId} is now \${data.status}\`);
+});
+
+// Listen for read receipts
+socket.on('messages-read', (data) => {
+  console.log(\`\${data.userId} read messages at \${data.lastReadAt}\`);
+});`}</CodeBlock>
+            </section>
+
+            <Divider />
+
+            {/* Complete Integration Example */}
+            <section id="real-time-example" className="scroll-mt-[72px]">
+              <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-4">Complete Integration Example</h2>
+
+              <CodeBlock label="PapersignalChat Class">{`import io from 'socket.io-client';
+
+class PapersignalChat {
+  constructor(apiKey, userId, userName) {
+    this.apiKey = apiKey;
+    this.userId = userId;
+    this.userName = userName;
+    this.baseURL = 'https://mailserver-production.up.railway.app';
+    this.socket = null;
+    this.currentRoom = null;
+  }
+
+  connect() {
+    this.socket = io(this.baseURL);
+
+    this.socket.on('connect', () => console.log('Connected!'));
+    this.socket.on('receive-room-message', (d) => this.onMessage(d));
+    this.socket.on('reaction-added', (d) => this.onReaction(d));
+    this.socket.on('presence-updated', (d) => this.onPresence(d));
+  }
+
+  async startDirectChat(otherUserId, otherUserName) {
+    const res = await fetch(\`\${this.baseURL}/api/external-chat/conversations/direct\`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': this.apiKey },
+      body: JSON.stringify({
+        user1Id: this.userId, user1Name: this.userName,
+        user2Id: otherUserId, user2Name: otherUserName
+      })
+    });
+    const { room } = await res.json();
+    this.joinRoom(room.id);
+    return room;
+  }
+
+  joinRoom(roomId) {
+    this.currentRoom = roomId;
+    this.socket.emit('join-room', { roomId, userId: this.userId, userName: this.userName });
+  }
+
+  async sendMessage(content) {
+    const res = await fetch(\`\${this.baseURL}/api/external-chat/rooms/\${this.currentRoom}/messages\`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': this.apiKey },
+      body: JSON.stringify({ userId: this.userId, userName: this.userName, content, messageType: 'text' })
+    });
+    const { message } = await res.json();
+    this.socket.emit('send-room-message', { roomId: this.currentRoom, message });
+    return message;
+  }
+
+  async addReaction(messageId, emoji) {
+    await fetch(\`\${this.baseURL}/api/external-chat/rooms/\${this.currentRoom}/messages/\${messageId}/reactions\`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': this.apiKey },
+      body: JSON.stringify({ userId: this.userId, userName: this.userName, emoji })
+    });
+    this.socket.emit('reaction-added', { roomId: this.currentRoom, messageId, userId: this.userId, userName: this.userName, emoji });
+  }
+
+  async markAsRead() {
+    await fetch(\`\${this.baseURL}/api/external-chat/rooms/\${this.currentRoom}/read\`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': this.apiKey },
+      body: JSON.stringify({ userId: this.userId })
+    });
+  }
+
+  // Override these in your implementation
+  onMessage(data) { console.log('Message:', data); }
+  onReaction(data) { console.log('Reaction:', data); }
+  onPresence(data) { console.log('Presence:', data); }
+}
+
+// Usage
+const chat = new PapersignalChat('YOUR_API_KEY', 'user_123', 'John');
+chat.connect();
+
+const room = await chat.startDirectChat('user_456', 'Jane');
+await chat.sendMessage('Hey Jane!');
+await chat.addReaction('msg_xyz', 'wave');`}</CodeBlock>
+            </section>
+
+            {/* Footer */}
+            <div className="border-t border-[#e5e7eb] pt-8 mt-14 text-center">
+              <h3 className="text-[15px] font-semibold text-[#1a1a1a] mb-1">Need help?</h3>
+              <p className="text-[13px] text-[#6b7280] mb-4">Check out the dashboard or contact support.</p>
+              <div className="flex justify-center gap-3">
+                <Link to="/dashboard" className="bg-[#1a1a1a] text-white px-4 py-2 rounded-md text-[13px] font-medium hover:bg-[#333] no-underline">Dashboard</Link>
+                <a href="mailto:support@papersignal.com" className="bg-[#f3f4f6] text-[#4b5563] px-4 py-2 rounded-md text-[13px] font-medium hover:bg-[#e5e7eb] no-underline">Contact Support</a>
+              </div>
+            </div>
+
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
 
 export default Documentation;

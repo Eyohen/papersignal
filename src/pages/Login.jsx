@@ -1,240 +1,8 @@
 //pages/Login.jsx
-// import React, { useState } from 'react';
-// import { 
-//   SparklesIcon,
-//   EyeIcon,
-//   EyeSlashIcon,
-//   ChevronRightIcon,
-//   ShieldCheckIcon
-// } from '@heroicons/react/24/solid';
-// import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { URL } from '../url'
-// import axios from 'axios';
-
-// const Login = () => {
-//   const navigate = useNavigate()
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [rememberMe, setRememberMe] = useState(false);
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     // Handle login logic here
-//     console.log('Login attempt:', { email, password, rememberMe });
-//   };
-
-//   const socialProviders = [
-//     { name: 'Google', icon: '🔗', color: 'border-gray-300 hover:border-gray-400' },
-//     { name: 'GitHub', icon: '⚡', color: 'border-gray-300 hover:border-gray-400' },
-//     { name: 'Microsoft', icon: '🏢', color: 'border-gray-300 hover:border-gray-400' }
-//   ];
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-[#c4e6ff]/20 via-white to-[#c4e6ff]/10 flex" style={{fontFamily: 'Bricolage Grotesque, system-ui, -apple-system, sans-serif'}}>
-//       {/* Left Side - Login Form */}
-//       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-//         <div className="max-w-md w-full">
-//           {/* Back to Home */}
-//           <div className="mb-8">
-//             <button className="flex items-center text-gray-600 hover:text-[#27214e] transition-colors">
-//               <ArrowLeftIcon className="w-4 h-4 mr-2" />
-//               <span className="text-sm font-medium">Back to Home</span>
-//             </button>
-//           </div>
-
-//           {/* Header */}
-//           <div className="text-center mb-8">
-//             <div className="flex items-center justify-center space-x-3 mb-6">
-//               <div className="w-12 h-12 bg-[#27214e] rounded-xl flex items-center justify-center">
-//                 <SparklesIcon className="w-7 h-7 text-white" />
-//               </div>
-//               <span className="text-3xl font-bold text-[#27214e]">Papersignal</span>
-//             </div>
-//             <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome back</h1>
-//             <p className="text-gray-600">Sign in to your account to continue building</p>
-//           </div>
-
-//           {/* Social Login Options */}
-//           <div className="grid grid-cols-3 gap-3 mb-6">
-//             {socialProviders.map((provider, index) => (
-//               <button
-//                 key={index}
-//                 className={`flex items-center justify-center px-4 py-3 border rounded-lg transition-all duration-200 ${provider.color} hover:shadow-sm`}
-//               >
-//                 <span className="text-lg mr-2">{provider.icon}</span>
-//                 <span className="text-sm font-medium text-gray-700">{provider.name}</span>
-//               </button>
-//             ))}
-//           </div>
-
-//           <div className="relative mb-6">
-//             <div className="absolute inset-0 flex items-center">
-//               <div className="w-full border-t border-gray-300" />
-//             </div>
-//             <div className="relative flex justify-center text-sm">
-//               <span className="px-4 bg-white text-gray-500 font-medium">or continue with email</span>
-//             </div>
-//           </div>
-
-//           {/* Login Form */}
-//           <div className="space-y-6">
-//             <div>
-//               <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-//                 Email address
-//               </label>
-//               <input
-//                 id="email"
-//                 name="email"
-//                 type="email"
-//                 autoComplete="email"
-//                 required
-//                 value={email}
-//                 onChange={(e) => setEmail(e.target.value)}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#27214e] focus:border-[#27214e] transition-colors"
-//                 placeholder="Enter your email"
-//               />
-//             </div>
-
-//             <div>
-//               <label htmlFor="password" className="block text-sm font-semibold text-gray-900 mb-2">
-//                 Password
-//               </label>
-//               <div className="relative">
-//                 <input
-//                   id="password"
-//                   name="password"
-//                   type={showPassword ? "text" : "password"}
-//                   autoComplete="current-password"
-//                   required
-//                   value={password}
-//                   onChange={(e) => setPassword(e.target.value)}
-//                   className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#27214e] focus:border-[#27214e] transition-colors"
-//                   placeholder="Enter your password"
-//                 />
-//                 <button
-//                   type="button"
-//                   className="absolute inset-y-0 right-0 pr-4 flex items-center"
-//                   onClick={() => setShowPassword(!showPassword)}
-//                 >
-//                   {showPassword ? (
-//                     <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-//                   ) : (
-//                     <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-//                   )}
-//                 </button>
-//               </div>
-//             </div>
-
-//             <div className="flex items-center justify-between">
-//               <div className="flex items-center">
-//                 <input
-//                   id="remember-me"
-//                   name="remember-me"
-//                   type="checkbox"
-//                   checked={rememberMe}
-//                   onChange={(e) => setRememberMe(e.target.checked)}
-//                   className="h-4 w-4 text-[#27214e] focus:ring-[#27214e] border-gray-300 rounded"
-//                 />
-//                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-//                   Remember me
-//                 </label>
-//               </div>
-
-//               <div className="text-sm">
-//                 <a href="#" className="font-semibold text-[#27214e] hover:text-[#1a1735] transition-colors">
-//                   Forgot password?
-//                 </a>
-//               </div>
-//             </div>
-
-//             <button
-//               onClick={()=> navigate('/dashboard')}
-//               className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-[#27214e] hover:bg-[#1a1735] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#27214e] font-semibold transition-all duration-200"
-//             >
-//               Sign in to your account
-//               <ChevronRightIcon className="w-4 h-4 ml-2" />
-//             </button>
-//           </div>
-
-//           {/* Sign Up Link */}
-//           <div className="mt-8 text-center">
-//             <p className="text-gray-600">
-//               Don't have an account ?{' '}
-//               <Link to="/signup" className="font-semibold text-[#27214e] hover:text-[#1a1735] transition-colors">
-//                 Sign up for free
-//               </Link>
-//             </p>
-//           </div>
-
-//           {/* Security Notice */}
-//           <div className="mt-8 bg-[#c4e6ff]/20 rounded-lg p-4 border border-[#c4e6ff]/50">
-//             <div className="flex items-center">
-//               <ShieldCheckIcon className="w-5 h-5 text-[#27214e] mr-2 flex-shrink-0" />
-//               <p className="text-sm text-gray-700">
-//                 Your data is protected with enterprise-grade security and encryption.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Right Side - Illustration/Branding */}
-//       <div className="hidden lg:flex lg:flex-1 bg-[#27214e] relative overflow-hidden">
-//         <div className="flex items-center justify-center w-full px-12">
-//           <div className="text-center max-w-lg">
-//             <div className="w-24 h-24 bg-white/10 rounded-3xl flex items-center justify-center mb-8 mx-auto">
-//               <SparklesIcon className="w-12 h-12 text-white" />
-//             </div>
-            
-//             <h2 className="text-3xl font-bold text-white mb-6">
-//               Build better customer experiences
-//             </h2>
-            
-//             <p className="text-[#c4e6ff] text-lg leading-relaxed mb-8">
-//               Join thousands of developers using Papersignal to create seamless customer communication workflows.
-//             </p>
-
-//             <div className="space-y-4">
-//               <div className="flex items-center text-white">
-//                 <div className="w-2 h-2 bg-[#c4e6ff] rounded-full mr-3"></div>
-//                 <span>99.9% uptime SLA</span>
-//               </div>
-//               <div className="flex items-center text-white">
-//                 <div className="w-2 h-2 bg-[#c4e6ff] rounded-full mr-3"></div>
-//                 <span>Enterprise-grade security</span>
-//               </div>
-//               <div className="flex items-center text-white">
-//                 <div className="w-2 h-2 bg-[#c4e6ff] rounded-full mr-3"></div>
-//                 <span>24/7 developer support</span>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Background decoration */}
-//         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-48 translate-x-48"></div>
-//         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-32 -translate-x-32"></div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
-
-
 import React, { useState } from 'react';
-import {
-  SparklesIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  ChevronRightIcon,
-  ShieldCheckIcon
-} from '@heroicons/react/24/solid';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { Link, useNavigate } from 'react-router-dom';
+import { IoMailOutline } from "react-icons/io5";
 import { URL } from '../url';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -275,65 +43,39 @@ const Login = () => {
     }
   };
 
-  const socialProviders = [
-    { name: 'Google', icon: '🔗', color: 'border-gray-300 hover:border-gray-400' },
-    { name: 'GitHub', icon: '⚡', color: 'border-gray-300 hover:border-gray-400' },
-    { name: 'Microsoft', icon: '🏢', color: 'border-gray-300 hover:border-gray-400' }
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#c4e6ff]/20 via-white to-[#c4e6ff]/10 flex" style={{fontFamily: 'Bricolage Grotesque, system-ui, -apple-system, sans-serif'}}>
+    <div className="min-h-screen bg-white flex" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
       {/* Left Side - Login Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full">
-          <div className="mb-8">
-            <Link to="/" className="flex items-center text-gray-600 hover:text-[#27214e] transition-colors">
-              <ArrowLeftIcon className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Back to Home</span>
+      <div className="flex-1 flex items-center justify-center px-6">
+        <div className="w-full max-w-[360px]">
+          {/* Back to Home */}
+          <div className="mb-10">
+            <Link to="/" className="text-[13px] text-[#6b7280] hover:text-[#1a1a1a] font-medium">
+              &larr; Back to Home
             </Link>
           </div>
 
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-[#27214e] rounded-xl flex items-center justify-center">
-                <SparklesIcon className="w-7 h-7 text-white" />
-              </div>
-              <span className="text-3xl font-bold text-[#27214e]">Papersignal</span>
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-6">
+              <IoMailOutline color='#1a1a1a' size={18}/>
+              <span className="text-[15px] font-semibold text-[#1a1a1a]">Papersignal</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome back</h1>
-            <p className="text-gray-600">Sign in to your account to continue building</p>
+            <h1 className="text-[24px] font-semibold text-[#1a1a1a] mb-1">Welcome back</h1>
+            <p className="text-[14px] text-[#6b7280]">Sign in to your account to continue</p>
           </div>
 
+          {/* Error */}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+            <div className="mb-4 p-3 bg-[#fef2f2] border border-[#fecaca] rounded-md text-[#dc2626] text-[13px]">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {socialProviders.map((provider, index) => (
-              <button
-                key={index}
-                className={`flex items-center justify-center px-4 py-3 border rounded-lg transition-all duration-200 ${provider.color} hover:shadow-sm`}
-              >
-                <span className="text-lg mr-2">{provider.icon}</span>
-                <span className="text-sm font-medium text-gray-700">{provider.name}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="relative mb-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 font-medium">or continue with email</span>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Login Form */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
+              <label htmlFor="email" className="block text-[13px] font-medium text-[#1a1a1a] mb-1.5">
                 Email address
               </label>
               <input
@@ -344,13 +86,13 @@ const Login = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#27214e] focus:border-[#27214e] transition-colors"
-                placeholder="Enter your email"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-[#1a1a1a] focus:border-transparent"
+                placeholder="you@company.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-900 mb-2">
+              <label htmlFor="password" className="block text-[13px] font-medium text-[#1a1a1a] mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -362,110 +104,86 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#27214e] focus:border-[#27214e] transition-colors"
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md text-[14px] focus:outline-none focus:ring-2 focus:ring-[#1a1a1a] focus:border-transparent"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <EyeSlashIcon className="h-4 w-4 text-[#9ca3af]" />
                   ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <EyeIcon className="h-4 w-4 text-[#9ca3af]" />
                   )}
                 </button>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              <div className="flex items-center gap-2">
                 <input
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-[#27214e] focus:ring-[#27214e] border-gray-300 rounded"
+                  className="h-3.5 w-3.5 rounded border-gray-300"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="text-[13px] text-[#4b5563]">
                   Remember me
                 </label>
               </div>
-
-              <div className="text-sm">
-                <a href="#" className="font-semibold text-[#27214e] hover:text-[#1a1735] transition-colors">
-                  Forgot password?
-                </a>
-              </div>
+              <a href="#" className="text-[13px] font-medium text-[#1a1a1a] hover:underline">
+                Forgot password?
+              </a>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-[#27214e] hover:bg-[#1a1735] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#27214e] font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2.5 bg-[#1a1a1a] text-white rounded-md text-[14px] font-medium hover:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Signing in...' : 'Sign in to your account'}
-              {!loading && <ChevronRightIcon className="w-4 h-4 ml-2" />}
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-600">
-              Don't have an account?{' '}
-              <Link to="/signup" className="font-semibold text-[#27214e] hover:text-[#1a1735] transition-colors">
-                Sign up for free
-              </Link>
-            </p>
-          </div>
-
-          <div className="mt-8 bg-[#c4e6ff]/20 rounded-lg p-4 border border-[#c4e6ff]/50">
-            <div className="flex items-center">
-              <ShieldCheckIcon className="w-5 h-5 text-[#27214e] mr-2 flex-shrink-0" />
-              <p className="text-sm text-gray-700">
-                Your data is protected with enterprise-grade security and encryption.
-              </p>
-            </div>
-          </div>
+          {/* Sign Up Link */}
+          <p className="mt-6 text-[13px] text-[#6b7280] text-center">
+            Don't have an account?{' '}
+            <Link to="/signup" className="font-medium text-[#1a1a1a] hover:underline">
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
 
-      {/* Right Side - Illustration/Branding */}
-      <div className="hidden lg:flex lg:flex-1 bg-[#27214e] relative overflow-hidden">
-        <div className="flex items-center justify-center w-full px-12">
-          <div className="text-center max-w-lg">
-            <div className="w-24 h-24 bg-white/10 rounded-3xl flex items-center justify-center mb-8 mx-auto">
-              <SparklesIcon className="w-12 h-12 text-white" />
-            </div>
-            
-            <h2 className="text-3xl font-bold text-white mb-6">
-              Build better customer experiences
-            </h2>
-            
-            <p className="text-[#c4e6ff] text-lg leading-relaxed mb-8">
-              Join thousands of developers using Papersignal to create seamless customer communication workflows.
-            </p>
+      {/* Right Side - Clean branding panel */}
+      <div className="hidden lg:flex lg:flex-1 bg-[#f9fafb] border-l border-gray-200 items-center justify-center px-12">
+        <div className="max-w-[320px]">
+          <h2 className="text-[22px] font-semibold text-[#1a1a1a] mb-3 tracking-tight">
+            Build better customer experiences
+          </h2>
+          <p className="text-[14px] text-[#6b7280] leading-relaxed mb-8">
+            Join thousands of developers using Papersignal to create seamless customer communication workflows.
+          </p>
 
-            <div className="space-y-4">
-              <div className="flex items-center text-white">
-                <div className="w-2 h-2 bg-[#c4e6ff] rounded-full mr-3"></div>
-                <span>99.9% uptime SLA</span>
-              </div>
-              <div className="flex items-center text-white">
-                <div className="w-2 h-2 bg-[#c4e6ff] rounded-full mr-3"></div>
-                <span>Enterprise-grade security</span>
-              </div>
-              <div className="flex items-center text-white">
-                <div className="w-2 h-2 bg-[#c4e6ff] rounded-full mr-3"></div>
-                <span>24/7 developer support</span>
-              </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2.5 text-[13px] text-[#4b5563]">
+              <div className="w-1 h-1 bg-[#1a1a1a] rounded-full"></div>
+              99.9% uptime SLA
+            </div>
+            <div className="flex items-center gap-2.5 text-[13px] text-[#4b5563]">
+              <div className="w-1 h-1 bg-[#1a1a1a] rounded-full"></div>
+              Enterprise-grade security
+            </div>
+            <div className="flex items-center gap-2.5 text-[13px] text-[#4b5563]">
+              <div className="w-1 h-1 bg-[#1a1a1a] rounded-full"></div>
+              24/7 developer support
             </div>
           </div>
         </div>
-
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-48 translate-x-48"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-32 -translate-x-32"></div>
       </div>
     </div>
   );
